@@ -36,10 +36,15 @@ const Navbar = () => {
   const router = useRouter();
 
   const handleLogout = () => {
-    localStorage.removeItem("loggedInUser"); // Remove user session
-    setIsLoggedIn(false);
-    alert("Logged out successfully!");
-    router.push("/login"); // Redirect to login page
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("loggedInUser"); // Remove user session
+      setIsLoggedIn(false);
+      alert("Logged out successfully!");
+      router.push("/login"); // Redirect to login page
+    } else {
+      // Handle case when localStorage is unavailable (e.g., SSR)
+      console.log("localStorage is unavailable during SSR.");
+    }
   };
 
   const { cartItemsNumber } = useContext(CartContext);

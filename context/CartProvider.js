@@ -5,25 +5,35 @@ export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState(() => {
-    // Load initial state from localStorage
-    const savedCart = localStorage.getItem("cartItems");
-    return savedCart ? JSON.parse(savedCart) : [];
+    if (typeof window !== "undefined") {
+      // Load initial state from localStorage
+      const savedCart = localStorage.getItem("cartItems");
+      return savedCart ? JSON.parse(savedCart) : [];
+    }
+    return [];
   });
 
   useEffect(() => {
-    // Save cart items to localStorage whenever they change
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    if (typeof window !== "undefined") {
+      // Save cart items to localStorage whenever they change
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    }
   }, [cartItems]);
 
   const [cartItemsNumber, setCartItemsNumber] = useState(() => {
-    // Load initial state from localStorage
-    const savedItemsNumber = localStorage.getItem("cartItemsNumber");
-    return savedItemsNumber ? JSON.parse(savedItemsNumber) : 0;
+    if (typeof window !== "undefined") {
+      // Load initial state from localStorage
+      const savedItemsNumber = localStorage.getItem("cartItemsNumber");
+      return savedItemsNumber ? JSON.parse(savedItemsNumber) : 0;
+    }
+    return 0;
   });
 
   useEffect(() => {
-    // Save cart items to localStorage whenever they change
-    localStorage.setItem("cartItemsNumber", JSON.stringify(cartItemsNumber));
+    if (typeof window !== "undefined") {
+      // Save cart items to localStorage whenever they change
+      localStorage.setItem("cartItemsNumber", JSON.stringify(cartItemsNumber));
+    }
   }, [cartItemsNumber]);
 
   function addToCart(item) {

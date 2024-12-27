@@ -12,19 +12,23 @@ export default function LoginPage() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const user = users.find(
-      (user) => user.username === username && user.password === password
-    );
+    if (typeof window !== "undefined") {
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const user = users.find(
+        (user) => user.username === username && user.password === password
+      );
 
-    if (user) {
-      localStorage.setItem("loggedInUser", JSON.stringify(user));
-      setIsLoggedIn(true);
-      alert("Login successful!");
-      router.push("/"); // Redirect to homepage
+      if (user) {
+        localStorage.setItem("loggedInUser", JSON.stringify(user));
+        setIsLoggedIn(true);
+        alert("Login successful!");
+        router.push("/"); // Redirect to homepage
+      } else {
+        setIsLoggedIn(false);
+        alert("Invalid credentials!");
+      }
     } else {
-      setIsLoggedIn(false);
-      alert("Invalid credentials!");
+      alert("Local storage is unavailable during server-side rendering.");
     }
   };
 

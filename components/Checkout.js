@@ -47,14 +47,21 @@ const Checkout = () => {
   function handleSubmit(event) {
     event.preventDefault();
     setIsSubmitted(true);
-    localStorage.setItem("customerDetails", JSON.stringify(form));
-    router.push("/congratulations");
+    if (typeof window !== "undefined") {
+      localStorage.setItem("customerDetails", JSON.stringify(form));
+      router.push("/congratulations");
+    } else {
+      // Handle case when localStorage is unavailable (e.g., SSR)
+      console.log("localStorage is unavailable during SSR.");
+    }
   }
 
   useEffect(() => {
-    const savedData = localStorage.getItem("customerDetails");
-    if (savedData) {
-      setForm(JSON.parse(savedData));
+    if (typeof window !== "undefined") {
+      const savedData = localStorage.getItem("customerDetails");
+      if (savedData) {
+        setForm(JSON.parse(savedData));
+      }
     }
   }, []);
 

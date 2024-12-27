@@ -7,14 +7,15 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (typeof window !== "undefined") {
+      const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
 
-    if (loggedInUser) {
-      setIsLoggedIn(true); // User is already logged in
-    } else {
-      setIsLoggedIn(false);
+      if (loggedInUser) {
+        setIsLoggedIn(true); // User is already logged in
+      } else {
+        setIsLoggedIn(false);
+      }
     }
-    console.log("=========>", isLoggedIn);
   }, []);
   return (
     <AuthContext.Provider

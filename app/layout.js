@@ -26,6 +26,9 @@ export default function RootLayout({ children }) {
     if (!localStorage.getItem("users")) {
       localStorage.setItem("users", JSON.stringify([]));
     }
+  } else {
+    // Handle SSR case when localStorage is unavailable
+    console.log("localStorage is unavailable during server-side rendering.");
   }
   return (
     <html lang="en">

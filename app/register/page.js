@@ -12,21 +12,25 @@ export default function RegisterPage() {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const userExists = users.find((user) => user.username === username);
+    if (typeof window !== "undefined") {
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const userExists = users.find((user) => user.username === username);
 
-    if (userExists) {
-      alert("User already exists!");
+      if (userExists) {
+        alert("User already exists!");
+      } else {
+        users.push({ username, password });
+        localStorage.setItem("users", JSON.stringify(users));
+        localStorage.setItem(
+          "loggedInUser",
+          JSON.stringify({ username, password })
+        );
+        setIsLoggedIn(true);
+        alert("User registered successfully!");
+        router.push("/"); // Redirect to login
+      }
     } else {
-      users.push({ username, password });
-      localStorage.setItem("users", JSON.stringify(users));
-      localStorage.setItem(
-        "loggedInUser",
-        JSON.stringify({ username, password })
-      );
-      setIsLoggedIn(true);
-      alert("User registered successfully!");
-      router.push("/"); // Redirect to login
+      alert("Local storage is unavailable during server-side rendering.");
     }
   };
 
